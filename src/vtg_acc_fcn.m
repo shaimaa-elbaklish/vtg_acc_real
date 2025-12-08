@@ -1,4 +1,4 @@
-function cmd_accel = vtg_acc_fcn(sn, vn, vrel, k1i, tau_star, k2i, s0)
+function cmd_accel = vtg_acc_fcn(sn, vn, vrel, k1, tau_star, k2, s0)
 rho_s = 0.2;
 rho_v = 0.5;
 rho_u = 1.0;
