@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Copyright 2014-2021 The MathWorks, Inc.
+# Copyright 2014-2024 The MathWorks, Inc.
 
 ARCHIVE="$1"
 CATKIN_WS="$2"
+SUBDIR_PROJECT="$3"
 
 catkinWorkspaceHelp() {
    echo ""
@@ -51,9 +52,11 @@ if [ -z "$1" ] || ([ ! -z "$1" ] && [ "$1" = "-h" ] || [ "$1" = "--help" ]) ; th
 fi
 
 if [ ! $# -eq 2 ] ; then
-   echo "Expected two input arguments. Got $#."
-   fullUsage
-   exit 1
+   if [ ! $# -eq 3 ] ; then
+      echo "Expected at least two input arguments. Got $#."
+      fullUsage
+      exit 1
+   fi
 fi
 
 # Check Catkin workspace
@@ -141,12 +144,17 @@ if [ -f "$MODEL_REF_LIST" ] ; then
 
         # Extract archive if it exists
         if [ -f "$mdlRefArchive" ] ; then
-            # Create folder
-            MDLREF_DIR="$PROJECT_DIR/$(toLowerCase $(basename "$mdlRefArchive" .tgz))"
-            rm -fr "$MDLREF_DIR"
-
-            # Extract archive into created folder
-            tar -C "$PROJECT_DIR" -xf "$mdlRefArchive"
+            if [ $# -eq 3 ] && [ $SUBDIR_PROJECT -eq 1 ] ; then
+                # No action required, all in one tgz
+                :
+            else
+                # Delete folder if exists
+                MDLREF_DIR="$PROJECT_DIR/$(toLowerCase $(basename "$mdlRefArchive" .tgz))"
+                rm -fr "$MDLREF_DIR"
+                # Extract archive into the workspace
+                tar -C "$PROJECT_DIR" -xf "$mdlRefArchive"
+            fi
+            rm -f "$mdlRefArchive"
         fi
     done < "$MODEL_REF_LIST"
 fi
