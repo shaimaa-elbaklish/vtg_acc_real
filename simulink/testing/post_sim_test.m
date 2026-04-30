@@ -1,4 +1,4 @@
-3*4% Access results
+% Access results
 scenario_name = 'stop_and_go';
 t              = out.t;
 sn             = out.sn;
