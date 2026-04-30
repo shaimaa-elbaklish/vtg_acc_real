@@ -52,7 +52,7 @@ Also, optimal workspace is queried for **LAPACK's `dtrsen`** at first to avoid i
 **Stage 3: Control Law & Failsafe (`vtg_acc_fcn2`)**  
 The stabilizing Riccati solution $P = U_{21} U_{11}^{-1}$ is recovered from the  reordered Schur vectors, and used to compute the optimal time gap correction $u$. </br>
 A **failsafe check** validates the decomposition at each timestep; if it fails, the controller falls back to the nominal time gap $\tau^\star$. The final outputs are: </br>
-$$\tau = \max(\tau^\star + u,\ 0)$$
+$$\tau = \max(\tau^\star + u,\ 0)$$ </br>
 $$a_{cmd} = k_1(s_n - s_0 - \tau_i v_n) + k_2 v_{rel}$$
 
 
